@@ -1,0 +1,73 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "definitions": {
+        "userData": {
+            "$id": "#/definitions/userData",
+            "properties": {
+                "name":{
+                    "description": "User Name",
+                    "pattern": "^(.){5,}$",
+                    "type": "string"
+                },
+                "twitter": {
+                    "description": "User Twitter Handle",
+                    "type": "string"
+                },
+                "email": {
+                    "description": "User Email Address",
+                    "pattern": "^[^@,\\x00-\\x1F]{1,}@[^@,\\x00-\\x1F]{1,}$",
+                    "type": "string"
+                }
+            },
+            "required": ["name"]
+        },
+        "userWithId": {
+            "$id": "#/definitions/userWithId",
+            "allOf": [
+                {
+                    "properties": {
+                        "id": {
+                            "title": "User Identifier",
+                            "type": "integer",
+                            "exclusiveMinimum": 0
+                        }
+                    },
+                    "required": ["id"]
+                },
+                { "$ref": "#/definitions/userData" }
+            ]
+        }
+    },
+    "title": "User",
+    "type": "object",
+    "allOf": [
+        { "$ref": "#/definitions/userWithId" }
+    ],
+    "links": [
+        {
+            "rel": "self",
+            "href": "/user/{?id}",
+            "hrefSchema": { "$ref": "#/definitions/userWithId" }
+        },
+        {
+            "rel": "getByName",
+            "href": "/user/{?name}",
+            "hrefSchema":{ "$ref": "#/definitions/userWithId" }
+        },
+        {
+            "rel": "create",
+            "href": "/user/create",
+            "hrefSchema":{ "$ref": "#/definitions/userWithId" },
+            "submissionEncType": "application/json",
+            "submissionSchema": { "$ref": "#/definitions/userData" }
+        }
+        ,
+        {
+            "rel": "Update",
+            "href": "/user/update",
+            "hrefSchema":{ "$ref": "#/definitions/userWithId" },
+            "submissionEncType": "application/json",
+            "submissionSchema": { "$ref": "#/definitions/userWithId" }
+        }
+    ]
+}

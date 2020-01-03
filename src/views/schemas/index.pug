@@ -1,0 +1,8 @@
+extends ../layout
+
+block content
+  h1= title
+  
+  each entry in schemas.length ? schemas : ["No entries!"]
+    div
+      a(href=`${baseurl}/${entry}`)= entry
